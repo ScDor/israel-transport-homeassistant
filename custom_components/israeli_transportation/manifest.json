@@ -13,5 +13,7 @@
     ],
     "version": "0.1.0",
     "integration_type": "service",
-    "issue_tracker":  "https://github.com/ScDor/your_repo/issues"
+    "issue_tracker":  "https://github.com/ScDor/your_repo/issues",
+    "iot_class": "cloud_polling",
+
 }
