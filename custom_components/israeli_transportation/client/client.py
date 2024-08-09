@@ -44,8 +44,9 @@ class Client:
         return result
 
 
-async def debug():
-    logger.debug(await Client.get_bus_data(21669, [40, 44, 83]))
+if __name__ == "__main__":
 
+    async def debug():
+        logger.debug(await Client.get_bus_data(43117, [1, 200]))
 
-asyncio.run(debug())
+    asyncio.run(debug())
