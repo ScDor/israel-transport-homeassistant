@@ -1,30 +1,32 @@
-import httpx
+import asyncio
+
+import hishel
+from loguru import logger
 
 from models.bus_response import BusResponse
 from utils import encrypt_key
-from loguru import logger
 
 
 class Client:
-    httpx_client = httpx.AsyncClient(
+    hishel_client = hishel.AsyncCacheClient(
         base_url="https://silent-be.onrender.com",
         headers={
             "key": encrypt_key(),
             "User-Agent": "israel-transport-homeassistant",
         },
+        storage=hishel.AsyncFileStorage(ttl=60),
     )
 
     @classmethod
     async def get_bus_data(cls, station: str, lines: list[int]) -> BusResponse:
         logger.debug(f"Getting info for {station=}, {lines=}")
         try:
-            response = await cls.httpx_client.get(
+            response = await cls.hishel_client.get(
                 "busv2",
-                params={
-                    "station": station,
-                    "lines": ",".join(map(str, lines)),
-                },
+                extensions={"force_cache": True},
+                params={"station": station, "lines": ",".join(map(str, lines))},
             )
+            logger.info(f"{response.extensions["from_cache"]=}")
             response.raise_for_status()
         except Exception:
             logger.exception("Failed getting API data")
@@ -40,3 +42,10 @@ class Client:
 
         logger.debug(result)
         return result
+
+
+async def debug():
+    logger.debug(await Client.get_bus_data(21669, [40, 44, 83]))
+
+
+asyncio.run(debug())

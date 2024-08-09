@@ -1,9 +1,8 @@
 import homeassistant.helpers.config_validation as cv
-from homeassistant.components.sensor import SensorEntity
-from homeassistant.helpers.entity import Entity
 import voluptuous as vol
-
+from homeassistant.components.sensor import SensorEntity
 from loguru import logger
+
 from client import Client
 from models.bus_response import BusArrivalData, BusResponse
 
@@ -16,7 +15,7 @@ PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend(
 )
 
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
+async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):  # noqa: ARG001
     station_number = config["station_number"]
     bus_line_numbers = config["bus_line_numbers"]
     sensors = [BusArrivalSensor(station_number, line) for line in bus_line_numbers]
@@ -77,8 +76,7 @@ class BusArrivalSensor(SensorEntity):
                 logger.error(message)
                 self.clear_state()
                 return
-            else:
-                logger.warning(message)
+            logger.warning(message)
 
         self.set_attributes(response)
 
