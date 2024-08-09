@@ -4,6 +4,6 @@
     "domains": [
         "sensor"
     ],
-    "country": "global",
+    "country": "IL",
     "iot_class": "cloud_polling"
 }
