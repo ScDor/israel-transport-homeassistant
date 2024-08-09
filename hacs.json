@@ -2,10 +2,10 @@
     "name": "Israeli Transport",
     "content_in_root": false,
     "domains": [
-        "sensor"
+        "israeli_transportation"
     ],
     "country": "IL",
     "iot_class": "cloud_polling",
     "integration_type": "service",
-    "issue_tracker":"https://github.com/ScDor/israel-transport-homeassistant/issues",
+    "issue_tracker": "https://github.com/ScDor/israel-transport-homeassistant/issues",
 }
