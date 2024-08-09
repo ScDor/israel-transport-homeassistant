@@ -18,13 +18,13 @@ class Client:
     )
 
     @classmethod
-    async def get_bus_data(cls, station: str, lines: list[str | int]) -> BusResponse:
+    async def get_bus_data(cls, station: str, lines: list[str]) -> BusResponse:
         logger.debug(f"Getting info for {station=}, {lines=}")
         try:
             response = await cls.hishel_client.get(
                 "busv2",
                 extensions={"force_cache": True},
-                params={"station": station, "lines": ",".join(map(str, lines))},
+                params={"station": station, "lines": ",".join(lines)},
             )
             logger.info(f"{response.extensions["from_cache"]=}")
             response.raise_for_status()
