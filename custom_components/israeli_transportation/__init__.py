@@ -13,9 +13,9 @@ from .bus_arrival_sensor import BusArrivalSensor
 def validate_bus_lines(value: Any):
     if not (
         isinstance(value, list)
-        and (all(isinstance(subvalue, int) for subvalue in value))
+        and (all(isinstance(list_item, (int, str)) for list_item in value))
     ):
-        raise vol.Invalid("bus_lines must be a list of numbers")
+        raise vol.Invalid("bus_lines must be a list of numbers or strings")
 
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(

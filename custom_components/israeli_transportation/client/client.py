@@ -18,7 +18,7 @@ class Client:
     )
 
     @classmethod
-    async def get_bus_data(cls, station: str, lines: list[int]) -> BusResponse:
+    async def get_bus_data(cls, station: str, lines: list[str | int]) -> BusResponse:
         logger.debug(f"Getting info for {station=}, {lines=}")
         try:
             response = await cls.hishel_client.get(

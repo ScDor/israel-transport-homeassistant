@@ -7,10 +7,10 @@ from .client.models.bus_response import BusArrivalData, BusResponse
 
 class BusArrivalSensor(SensorEntity):
     def __init__(
-        self, station_number: int, line_numbers: list[int], only_real_time: bool
+        self, station_number: int, line_numbers: list[int|str], only_real_time: bool
     ):
         self._station_number: int = station_number
-        self._bus_lines: list[int] = line_numbers
+        self._bus_lines: list[int|str] = line_numbers
         self._only_real_time: bool = only_real_time
 
         self._state: int | None = None
