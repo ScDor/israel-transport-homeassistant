@@ -1,0 +1,13 @@
+{
+    "domain": "bus_sensor",
+    "name": "Bus Sensor",
+    "documentation": "https://github.com/ScDor/your_repo",
+    "dependencies": [],
+    "codeowners": [
+        "@ScDor"
+    ],
+    "requirements": [
+        "file://pyproject.toml"
+    ],
+    "version": "0.1.0"
+}

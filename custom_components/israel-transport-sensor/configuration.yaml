@@ -1,0 +1,8 @@
+sensor:
+  - platform: israeli_transport
+    name: "Israeli Transportation ETA"
+    station_id: YOUR_STATION_ID
+    bus_lines:
+      - LINE_NUMBER_1
+      - LINE_NUMBER_2
+    scan_interval: 90

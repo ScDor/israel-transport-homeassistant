@@ -1,0 +1,9 @@
+{
+    "name": "Israeli Transport",
+    "content_in_root": false,
+    "domains": [
+        "sensor"
+    ],
+    "country": "global",
+    "iot_class": "cloud_polling"
+}

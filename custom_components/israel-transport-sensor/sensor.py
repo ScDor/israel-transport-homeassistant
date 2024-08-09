@@ -1,52 +1,56 @@
+from datetime import timedelta
+from typing import Any
+
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import PLATFORM_SCHEMA, SensorEntity
+from homeassistant.const import CONF_SCAN_INTERVAL
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from loguru import logger
 
-from client import Client
-from models.bus_response import BusArrivalData, BusResponse
+from client.client import Client
+from client.models.bus_response import BusArrivalData, BusResponse
 
-# Schema for configuration
-PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend(
+
+def validate_bus_lines(value: Any):
+    if not (
+        isinstance(value, list)
+        and (all(isinstance(subvalue, int) for subvalue in value))
+    ):
+        raise vol.Invalid("bus_lines must be a list of numbers")
+
+
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
-        vol.Required("station_number"): cv.string,
-        vol.Required("bus_line_numbers"): vol.All(cv.ensure_list, [cv.string]),
+        vol.Required("station_id"): cv.positive_int,
+        vol.Required("bus_lines"): validate_bus_lines,
+        vol.Required(CONF_SCAN_INTERVAL, default=90): cv.positive_int,
     }
 )
 
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):  # noqa: ARG001
-    station_number = config["station_number"]
-    bus_line_numbers = config["bus_line_numbers"]
-    sensors = [BusArrivalSensor(station_number, line) for line in bus_line_numbers]
-    async_add_entities(sensors)
-
-
 class BusArrivalSensor(SensorEntity):
     def __init__(
-        self,
-        station_number: int,
-        line_numbers: list[int],
-        only_real_time: bool,
+        self, station_number: int, line_numbers: list[int], only_real_time: bool
     ):
-        self._station_number = station_number
-        self._bus_lines = line_numbers
-        self._only_real_time = only_real_time
+        self._station_number: int = station_number
+        self._bus_lines: list[int] = line_numbers
+        self._only_real_time: bool = only_real_time
 
-        self._state = None
-        self._attributes = None
+        self._state: int | None = None
+        self._attributes: dict | None = None
 
     @property
     def line_numbers_string(self) -> str:
         return ",".join(sorted(self._bus_lines))
 
     @property
-    def name(self):
+    def name(self) -> str:
         line_word = "line" if len(self._bus_lines) == 1 else "lines"
-        return f"ETA for bus {line_word} {self.line_numbers_string} ETA in station #{self._station_number}"
+        return f"{line_word} {self.line_numbers_string} ETA in stop #{self._station_number}"
 
     @property
-    def state(self):
+    def state(self) -> int | None:
         return self._state
 
     def set_state(self, earliest_arrival: int | None):
@@ -87,3 +91,18 @@ class BusArrivalSensor(SensorEntity):
         )
         if earliest_real_time_arrival:
             self.set_state(earliest_real_time_arrival.real_time_arrives_in)
+
+
+async def async_setup_platform(
+    hass,  # noqa: ARG001
+    config,
+    async_add_entities,
+    discovery_info=None,  # noqa: ARG001
+):
+    config = PLATFORM_SCHEMA(config)
+    await async_add_entities(
+        [
+            BusArrivalSensor(station_number=config["station_id"], line_numbers=lines)
+            for lines in config["bus_lines"]
+        ]
+    )
