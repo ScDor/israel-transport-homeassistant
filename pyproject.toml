@@ -19,6 +19,7 @@ hishel = "^0.0.30"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.8.0"
+poetry-plugin-export = "^1.8.0"
 
 [tool.ruff.lint]
 ignore = [

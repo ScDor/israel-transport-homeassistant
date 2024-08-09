@@ -6,8 +6,6 @@
     "codeowners": [
         "@ScDor"
     ],
-    "requirements": [
-        "file://pyproject.toml"
-    ],
+    "requirements": ["loguru==0.7.2", "hishel==0.0.30"],
     "version": "0.1.0"
 }
