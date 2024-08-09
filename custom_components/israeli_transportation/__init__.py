@@ -7,7 +7,7 @@ import voluptuous as vol
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import CONF_SCAN_INTERVAL
 
-from .bus_arrival_sensor import BusArrivalSensor
+from .sensor import BusArrivalSensor
 
 
 def validate_bus_lines(value: Any):
