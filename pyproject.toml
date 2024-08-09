@@ -1,0 +1,20 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "homeassistant-bus-il"
+version = "0.1.0"
+description = ""
+authors = ["ScDor <18174994+ScDor@users.noreply.github.com>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+homeassistant = "^2024.7.4"
+httpx = "^0.27.0"
+loguru = "^0.7.2"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.8.0"
