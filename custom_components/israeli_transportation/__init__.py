@@ -1,1 +1,3 @@
-"""The bus sensor integration."""
+"""Israeli transportation integration."""
+
+from sensor import *  # noqa: F403
