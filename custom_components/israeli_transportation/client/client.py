@@ -2,8 +2,9 @@ import asyncio
 
 import hishel
 from loguru import logger
-from models.bus_response import BusResponse
-from utils import encrypt_key
+
+from .models.bus_response import BusResponse
+from .utils import encrypt_key
 
 
 class Client:
