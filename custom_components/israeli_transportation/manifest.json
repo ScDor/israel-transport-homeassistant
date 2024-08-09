@@ -1,18 +1,18 @@
 {
     "domain": "israeli_transportation",
     "name": "Israeli Transportation",
-    "documentation": "https://github.com/ScDor/your_repo",
-    "dependencies": [],
     "codeowners": [
         "@ScDor"
     ],
+    "dependencies": [],
+    "documentation": "https://github.com/ScDor/your_repo",
+    "integration_type": "service",
+    "iot_class": "cloud_polling",
+    "issue_tracker":  "https://github.com/ScDor/your_repo/issues",
     "requirements": [
         "loguru>=0.7.2",
         "hishel>=0.0.30",
         "pydantic"
     ],
     "version": "0.1.0",
-    "integration_type": "service",
-    "issue_tracker":  "https://github.com/ScDor/your_repo/issues",
-    "iot_class": "cloud_polling"
 }
