@@ -1,11 +1,9 @@
-from datetime import timedelta
 from typing import Any
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.components.sensor import PLATFORM_SCHEMA, SensorEntity
 from homeassistant.const import CONF_SCAN_INTERVAL
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from loguru import logger
 
 from client.client import Client
@@ -42,7 +40,7 @@ class BusArrivalSensor(SensorEntity):
 
     @property
     def line_numbers_string(self) -> str:
-        return ",".join(sorted(self._bus_lines))
+        return ",".join(sorted(map(str, self._bus_lines)))
 
     @property
     def name(self) -> str:
@@ -65,9 +63,15 @@ class BusArrivalSensor(SensorEntity):
         self._attributes = response.__dict__
 
     async def async_update(self):
-        response = await Client.get_bus_data(
-            station=self._station_number, lines=self._bus_lines
-        )
+        try:
+            response = await Client.get_bus_data(
+                station=self._station_number, lines=self._bus_lines
+            )
+        except Exception:  # noqa: BLE001
+            logger.exception()
+            self.clear_state()  # TODO ?
+            return
+
         if not response.bus_data:
             logger.warning("No bus data received")
             self.clear_state()  # TODO change?

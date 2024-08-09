@@ -1,6 +1,6 @@
 {
-    "domain": "bus_sensor",
-    "name": "Bus Sensor",
+    "domain": "israeli_transportation",
+    "name": "Israeli Transportation",
     "documentation": "https://github.com/ScDor/your_repo",
     "dependencies": [],
     "codeowners": [

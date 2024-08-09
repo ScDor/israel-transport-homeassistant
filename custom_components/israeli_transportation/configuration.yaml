@@ -1,5 +1,5 @@
 sensor:
-  - platform: israeli_transport
+  - platform: israeli_transportation
     name: "Israeli Transportation ETA"
     station_id: YOUR_STATION_ID
     bus_lines:
