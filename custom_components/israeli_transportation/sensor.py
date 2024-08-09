@@ -2,12 +2,11 @@ from typing import Any
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+from client.client import Client
+from client.models.bus_response import BusArrivalData, BusResponse
 from homeassistant.components.sensor import PLATFORM_SCHEMA, SensorEntity
 from homeassistant.const import CONF_SCAN_INTERVAL
 from loguru import logger
-
-from client.client import Client
-from client.models.bus_response import BusArrivalData, BusResponse
 
 
 def validate_bus_lines(value: Any):
