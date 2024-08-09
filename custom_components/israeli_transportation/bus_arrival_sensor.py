@@ -1,7 +1,8 @@
-from client.client import Client
-from client.models.bus_response import BusArrivalData, BusResponse
 from homeassistant.components.sensor import SensorEntity
 from loguru import logger
+
+from .client.client import Client
+from .client.models.bus_response import BusArrivalData, BusResponse
 
 
 class BusArrivalSensor(SensorEntity):
