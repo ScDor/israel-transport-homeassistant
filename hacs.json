@@ -6,7 +6,6 @@
     ],
     "country": "IL",
     "iot_class": "cloud_polling",
-    "integration_type": "hub",
+    "integration_type": "service",
     "issue_tracker":"https://github.com/ScDor/israel-transport-homeassistant/issues",
-    ""
 }
