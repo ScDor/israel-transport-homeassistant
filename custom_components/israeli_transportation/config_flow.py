@@ -1,5 +1,3 @@
-from typing import Any
-
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant import config_entries
@@ -22,7 +20,7 @@ class BusSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Optional("title", default=TITLE_BUS_SENSOR): str,
                     vol.Required(CONF_SCAN_INTERVAL, default=90): cv.positive_int,
                     vol.Required(CONF_BUS_STATION_ID): str,
-                    vol.Required(CONF_BUS_LINES): vol.All(cv.ensure_list),
+                    vol.Required(CONF_BUS_LINES): cv.ensure_list,
                 }
             ),
         )
