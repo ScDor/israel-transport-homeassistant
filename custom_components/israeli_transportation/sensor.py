@@ -1,13 +1,56 @@
-from homeassistant.components.sensor import SensorEntity
+from typing import Callable, Optional
+
+import gidgethub
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
+from aiohttp import ClientError
+from gidgethub.aiohttp import GitHubAPI
+from homeassistant.components.sensor import (
+    PLATFORM_SCHEMA,
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
+from homeassistant.const import (
+    ATTR_NAME,
+    CONF_ACCESS_TOKEN,
+    CONF_NAME,
+    CONF_PATH,
+    CONF_URL,
+    UnitOfTime,
+)
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.entity import Entity
+from homeassistant.helpers.typing import (
+    ConfigType,
+    DiscoveryInfoType,
+    HomeAssistantType,
+)
 from loguru import logger
 
 from .client.client import Client
 from .client.models.bus_response import BusArrivalData, BusResponse
+from .constants import CONF_BUS_LINES, CONF_BUS_STATION_ID, CONF_ONLY_REAL_TIME
 
+BUS_ETA_SENSOR_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_BUS_STATION_ID): cv.positive_int,
+        vol.Required(CONF_BUS_LINES): vol.All(cv.ensure_list),
+        vol.Required(): bool,
+    }
+)
 
-class BusArrivalSensor(SensorEntity):
+class BusETASensor(SensorEntity):
+    _attr_name = "Bus ETA"
+    _attr_native_unit_of_measurement = UnitOfTime.MINUTES
+    _attr_device_class = SensorDeviceClass.DURATION
+    _attr_state_class = SensorStateClass.MEASUREMENT
+
     def __init__(
-        self, station_number: int, line_numbers: list[int | str], only_real_time: bool
+        self,
+        station_number: int,
+        line_numbers: list[int | str],
+        only_real_time: bool,
     ):
         self._station_number: int = station_number
         self._bus_lines: list[str] = sorted(set(map(str, line_numbers)))

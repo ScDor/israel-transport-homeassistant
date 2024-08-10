@@ -11,4 +11,5 @@ INTEGRATION_NAME = _mainfest["name"]
 SENSOR = "sensor"
 CONF_BUS_LINES = "bus_lines"
 CONF_BUS_STATION_ID = "station_id"
-TITLE_BUS_SENSOR = "Bus Sensor"
+CONF_ONLY_REAL_TIME= "only_real_time"
+TITLE_BUS_SENSOR = "Bus ETA Sensor"

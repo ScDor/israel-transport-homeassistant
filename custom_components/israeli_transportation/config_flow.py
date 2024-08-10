@@ -1,5 +1,4 @@
 import homeassistant.helpers.config_validation as cv
-import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.const import CONF_SCAN_INTERVAL
 
@@ -15,12 +14,12 @@ class BusSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema(
-                {
-                    vol.Optional("title", default=TITLE_BUS_SENSOR): str,
-                    vol.Required(CONF_SCAN_INTERVAL, default=90): cv.positive_int,
-                    vol.Required(CONF_BUS_STATION_ID): str,
-                    vol.Required(CONF_BUS_LINES): cv.ensure_list,
-                }
+            # data_schema=vol.Schema(
+            #     {
+            #         vol.Optional("title", default=TITLE_BUS_SENSOR): str,
+            #         vol.Required(CONF_SCAN_INTERVAL, default=90): cv.positive_int,
+            #         vol.Required(CONF_BUS_STATION_ID): str,
+            #         vol.Required(CONF_BUS_LINES): cv.ensure_list,
+            #     }
             ),
         )
