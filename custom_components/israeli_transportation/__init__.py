@@ -10,7 +10,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from .constants import (
     CONF_BUS_LINES,
     CONF_BUS_STATION_ID,
-    DOMAIN_SENSOR,
+    SENSOR,
     INTEGRATION_NAME,
 )
 from .sensor import BusArrivalSensor
@@ -33,13 +33,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     await coordinator.async_refresh()
     hass.data.setdefault(INTEGRATION_NAME, {})[entry.entry_id] = coordinator
-    hass.async_add_job(
-        hass.config_entries.async_forward_entry_setup(entry, DOMAIN_SENSOR)
-    )
+    hass.async_add_job(hass.config_entries.async_forward_entry_setup(entry, SENSOR))
     return True
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
-    await hass.config_entries.async_forward_entry_unload(entry, DOMAIN_SENSOR)
+    await hass.config_entries.async_forward_entry_unload(entry, SENSOR)
     return hass.data[INTEGRATION_NAME].pop(entry.entry_id)

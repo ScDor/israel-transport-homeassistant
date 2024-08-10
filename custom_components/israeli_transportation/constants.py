@@ -1,12 +1,14 @@
 import json
 from pathlib import Path
 
-with Path(__file__).with_name("manifest.json").open() as f:
+integration_folder = Path(__file__).parent
+
+with (integration_folder / "manifest.json").open() as f:
     _mainfest = json.load(f)
 
+DOMAIN = integration_folder.name
 INTEGRATION_NAME = _mainfest["name"]
-DOMAIN = _mainfest["domain"]
-DOMAIN_SENSOR = "sensor"
+SENSOR = "sensor"
 CONF_BUS_LINES = "bus_lines"
 CONF_BUS_STATION_ID = "station_id"
 TITLE_BUS_SENSOR = "Bus Sensor"
