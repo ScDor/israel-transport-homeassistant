@@ -4,6 +4,7 @@
     "codeowners": [
         "@ScDor"
     ],
+    "config_flow": true,
     "dependencies": [],
     "documentation": "https://github.com/ScDor/israel-transport-homeassistant",
     "integration_type": "service",
@@ -14,6 +15,5 @@
         "hishel>=0.0.30",
         "pydantic"
     ],
-    "version": "0.1.0",
-    "config_flow": true
+    "version": "0.1.0"
 }
