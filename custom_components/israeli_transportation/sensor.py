@@ -1,36 +1,18 @@
-from typing import Callable, Optional
-
-import gidgethub
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-from aiohttp import ClientError
-from gidgethub.aiohttp import GitHubAPI
 from homeassistant.components.sensor import (
-    PLATFORM_SCHEMA,
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
 from homeassistant.const import (
-    ATTR_NAME,
-    CONF_ACCESS_TOKEN,
-    CONF_NAME,
-    CONF_PATH,
-    CONF_URL,
     UnitOfTime,
-)
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.entity import Entity
-from homeassistant.helpers.typing import (
-    ConfigType,
-    DiscoveryInfoType,
-    HomeAssistantType,
 )
 from loguru import logger
 
 from .client.client import Client
 from .client.models.bus_response import BusArrivalData, BusResponse
-from .constants import CONF_BUS_LINES, CONF_BUS_STATION_ID, CONF_ONLY_REAL_TIME
+from .constants import CONF_BUS_LINES, CONF_BUS_STATION_ID
 
 BUS_ETA_SENSOR_SCHEMA = vol.Schema(
     {
@@ -39,6 +21,7 @@ BUS_ETA_SENSOR_SCHEMA = vol.Schema(
         vol.Required(): bool,
     }
 )
+
 
 class BusETASensor(SensorEntity):
     _attr_name = "Bus ETA"
