@@ -5,20 +5,18 @@ from homeassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.const import (
-    UnitOfTime,
-)
+from homeassistant.const import UnitOfTime
 from loguru import logger
 
 from .client.client import Client
 from .client.models.bus_response import BusArrivalData, BusResponse
-from .constants import CONF_BUS_LINES, CONF_BUS_STATION_ID
+from .constants import CONF_BUS_LINES, CONF_BUS_STATION_ID, CONF_ONLY_REAL_TIME
 
 BUS_ETA_SENSOR_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_BUS_STATION_ID): cv.positive_int,
         vol.Required(CONF_BUS_LINES): vol.All(cv.ensure_list),
-        vol.Required(): bool,
+        vol.Required(CONF_ONLY_REAL_TIME): bool,
     }
 )
 
