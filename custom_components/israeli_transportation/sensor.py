@@ -1,16 +1,30 @@
+from datetime import timedelta
+from typing import Callable
+
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.components.sensor import (
+    PLATFORM_SCHEMA,
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
 from homeassistant.const import UnitOfTime
+from homeassistant.helpers.typing import (
+    ConfigType,
+    DiscoveryInfoType,
+    HomeAssistantType,
+)
 from loguru import logger
 
 from .client.client import Client
 from .client.models.bus_response import BusArrivalData, BusResponse
-from .constants import CONF_BUS_LINES, CONF_BUS_STATION_ID, CONF_ONLY_REAL_TIME
+from .constants import (
+    CONF_BUS_LINES,
+    CONF_BUS_STATION_ID,
+    CONF_ONLY_REAL_TIME,
+    CONF_STATIONS,
+)
 
 BUS_ETA_SENSOR_SCHEMA = vol.Schema(
     {
@@ -18,6 +32,14 @@ BUS_ETA_SENSOR_SCHEMA = vol.Schema(
         vol.Required(CONF_BUS_LINES): vol.All(cv.ensure_list),
         vol.Required(CONF_ONLY_REAL_TIME): bool,
     }
+)
+
+
+SCAN_INTERVAL = timedelta(seconds=90)
+# TODO not scan when there are no planned trips?
+
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+    {vol.Required(CONF_STATIONS): vol.All(cv.ensure_list, [BUS_ETA_SENSOR_SCHEMA])}
 )
 
 
@@ -97,3 +119,22 @@ class BusETASensor(SensorEntity):
         )
         if earliest_real_time_arrival:
             self.set_state(earliest_real_time_arrival.real_time_arrives_in)
+
+
+async def async_setup_platform(
+    hass: HomeAssistantType,
+    config: ConfigType,
+    async_add_entities: Callable,
+    discovery_info: DiscoveryInfoType | None = None,
+) -> None:
+    async_add_entities(
+        [
+            BusETASensor(
+                line_numbers=entry.data[CONF_BUS_LINES],
+                station_number=entry.data[CONF_BUS_STATION_ID],
+                only_real_time=True,  # TODO change
+            )
+            for entry in config[CONF_STATIONS]
+        ],
+        update_before_add=True,
+    )
