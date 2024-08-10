@@ -33,7 +33,7 @@ class Client:
             raise
 
         try:
-            result = BusResponse.model_validate_json(response.content)
+            result = BusResponse(**response.json())
         except Exception:
             logger.exception(
                 f"Failed parsing response: {response.status_code=}, {response.content=}"
