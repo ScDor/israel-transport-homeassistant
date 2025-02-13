@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -18,4 +17,4 @@ class BusArrivalData(BaseModel):
 class BusResponse(BaseModel):
     station_id: int = Field(alias="station")
     station_name: str = Field(alias="stationName")
-    bus_data: List[BusArrivalData] = Field(alias="businformation")
+    bus_data: list[BusArrivalData] = Field(alias="businformation")

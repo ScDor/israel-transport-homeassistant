@@ -1,28 +1,27 @@
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
-name = "homeassistant-bus-il"
+[project]
+name = "israel-transport-homeassistant"
 version = "0.1.0"
-description = ""
-authors = ["ScDor <18174994+ScDor@users.noreply.github.com>"]
-license = "GPL-3.0-or-later"
+description = "Add your description here"
 readme = "README.md"
-package-mode = false
+requires-python = ">=3.13"
+dependencies = [
+  "hishel>=0.1.1",
+  "homeassistant>=2025.2.3",
+  "loguru>=0.7.3",
+  "pydantic>=2.10.6"
+]
 
-[tool.poetry.dependencies]
-python = ">=3.12,<3.13"
-homeassistant = "^2024.7.4"
-loguru = "^0.7.2"
-hishel = "^0.0.30"
-pydantic = "^2.8.2"
+[project.optional-dependencies]
+test = [
+  "pytest>=7.4.0",
+  "pytest-cov>=4.1.0",
+  "pytest-asyncio>=0.21.1"
+]
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.8.0"
-poetry-plugin-export = "^1.8.0"
 
-[tool.ruff.lint]
+[tool.ruff]
+select = ["ALL"]
+exclude = ["uk_transport"]
 ignore = [
   "ANN",
   "COM812",
@@ -34,6 +33,7 @@ ignore = [
   "FA",
   "FBT001",
   "FBT002",
+  "FBT003",
   "FIX002",
   "G003",
   "G004",
@@ -50,4 +50,7 @@ ignore = [
   "TD004",
   "TRY003"
 ]
-select = ["ALL"]
+
+[tool.ruff.per-file-ignores]
+"custom_components/Israeli_transport/sensor.py" = ["ARG001"]
+"tests*" = ["S101", "PLR2004", "ARG001"]
