@@ -1,0 +1,40 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Israeli Public Transport",
+        "description": "Set up Israeli Public Transport integration",
+        "data": {
+          "transport_type": "Transport Type"
+        }
+      },
+      "bus": {
+        "title": "Bus Configuration",
+        "description": "Configure bus station monitoring. Find your station ID at https://xn--4dbclabp0e.co.il/searchStations",
+        "data": {
+          "station_id": "Station ID",
+          "bus_lines": "Bus Lines (comma-separated, e.g., 40,249,605)",
+          "only_real_time": "Show only real-time arrivals",
+          "create_line_sensors": "Create individual sensors for each line"
+        }
+      },
+      "train": {
+        "title": "Train Configuration",
+        "description": "Configure train route monitoring. Train stations start with 17***. Example: Tel Aviv Hashalom = 17046",
+        "data": {
+          "from_station": "From Station ID",
+          "to_station": "To Station ID"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Israeli Transport API",
+      "invalid_lines": "Invalid bus lines format. Use comma-separated numbers (e.g., 40,249,605)",
+      "no_lines": "At least one bus line is required",
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "This station/route is already configured"
+    }
+  }
+}

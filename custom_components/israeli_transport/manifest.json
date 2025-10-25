@@ -1,0 +1,12 @@
+{
+  "domain": "israeli_transport",
+  "name": "Israeli Public Transport",
+  "codeowners": ["@dor"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/dor/israel-transport-homeassistant",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/dor/israel-transport-homeassistant/issues",
+  "requirements": ["pydantic==2.10.6", "aiohttp>=3.11.11"],
+  "version": "2.0.0"
+}
